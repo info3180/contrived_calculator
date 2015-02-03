@@ -12,6 +12,13 @@ def hello(myname='person'):
 # converters modify the dynamic part before it is passed to the function.
 # int,float & path are built-in converters. Custom converters can be added.
 
+
+@app.route('/2257.png')
+def send_2257():
+    """Send your static text file."""
+    
+    return app.send_static_file('2257.png')
+
 @app.route("/int-add/<int:a>/<int:b>",methods=['GET', 'POST'])   #try this with floats. Whys wont it work?
 def int_add(a,b):
   result = str(a + b)
