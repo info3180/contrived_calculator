@@ -1,5 +1,5 @@
 import os
-from flask import Flask,render_template
+from flask import Flask,jsonify,request,render_template
 app = Flask(__name__)
 
 
@@ -12,24 +12,34 @@ def hello(myname='person'):
 # converters modify the dynamic part before it is passed to the function.
 # int,float & path are built-in converters. Custom converters can be added.
 
-@app.route("/int-add/<int:a>/<int:b>")  #try this with floats. Whys wont it work?
+@app.route("/int-add/<int:a>/<int:b>",methods=['GET', 'POST'])   #try this with floats. Whys wont it work?
 def int_add(a,b):
-  return str(a + b)
+  result = str(a + b)
+  if request.method == 'POST':
+     return jsonify(dict(result=result))
+  return result
 
-@app.route("/float-add/<float:a>/<float:b>") 
+
+@app.route("/float-add/<float:a>/<float:b>",methods=['GET', 'POST']) 
 def float_add(a,b):
-  return str(a + b)
+  result = str(a + b)
+  if request.method == 'POST':
+     return jsonify(dict(result=result))
+  return result
 
-@app.route("/calc/<a>/<opperand>/<b>")
+@app.route("/calc/<a>/<opperand>/<b>" ,methods=['GET', 'POST'])
 def calc(opperand,a,b):
   a,b= float(a),float(b)
   
   if opperand in ('+','plus','and'):
-    return str(a + b)
+    result = str(a + b)
   if opperand in  ('-','minus'):
-    return str(a - b)
+    result = str(a - b)
   if opperand in  ('*','multiply','times'):
-    return str(a * b)
+    result = str(a * b)
+  if request.method == 'POST':
+     return jsonify(dict(result=result))
+  return result
   
 if __name__ == "__main__":
     app.run(debug=True, host=os.getenv("IP", '0.0.0.0'),port=int(os.getenv("PORT", 8080) ))
