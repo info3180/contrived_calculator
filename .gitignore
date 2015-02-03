@@ -1,1 +1,2 @@
-v
+# we don't want to include the virtualenv folder
+venv
